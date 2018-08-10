@@ -1,18 +1,37 @@
 const express = require('express')
 const jwt = require('express-jwt')
 const bodyParser = require('body-parser')
-
+const Prometheus = require('prom-client')
 const { AUTH_SECRET } = require('./config')
 const { generateToken, verifyUser } = require('./authentication')
 
+const collectDefaultMetrics = Prometheus.collectDefaultMetrics
+
+const PrometheusMetrics = {
+  requestCounter: new Prometheus.Counter({
+    name: 'throughput',
+    help: 'The number of requests served',
+  }),
+}
+
+collectDefaultMetrics()
 const app = express()
+
+app.use((req, res, next) => {
+  PrometheusMetrics.requestCounter.inc()
+  next()
+})
+
+app.get('/metrics', (req, res) => {
+  res.end(Prometheus.register.metrics())
+})
 
 app.use(bodyParser.json())
 
 app.use(
   jwt({
     secret: AUTH_SECRET,
-  }).unless({ path: ['/login'] })
+  }).unless({ path: ['/login', '/metrics'] })
 )
 
 app.use((err, req, res, next) => {
