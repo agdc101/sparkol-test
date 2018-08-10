@@ -24,7 +24,7 @@ To manually run them you can do:
 
 `npm audit`
 
-#Endpoints
+# Endpoints
 
 ## POST /login
 
