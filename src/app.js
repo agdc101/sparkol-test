@@ -38,10 +38,10 @@ app.use(
 )
 
 app.use((err, req, res, next) => {
-  if (err.inner.name === 'TokenExpiredError') {
+  if (err && err.inner && err.inner.name === 'TokenExpiredError') {
     return res.status(401).send('Auth Token Expired')
   }
-  if (err.name === 'UnauthorizedError') {
+  if (err && err.name === 'UnauthorizedError') {
     return res.status(401).send('Invalid Auth Token')
   }
   next(req)
