@@ -1,6 +1,7 @@
 const express = require('express')
 const jwt = require('express-jwt')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const Prometheus = require('prom-client')
 const { AUTH_SECRET } = require('./config')
 const { generateToken, verifyUser } = require('./authentication')
@@ -16,6 +17,8 @@ const PrometheusMetrics = {
 
 collectDefaultMetrics()
 const app = express()
+
+app.use(cors())
 
 app.use((req, res, next) => {
   PrometheusMetrics.requestCounter.inc()
