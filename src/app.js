@@ -56,7 +56,10 @@ app.post('/login', (req, res) => {
   const user = verifyUser(username, password)
   if (user) {
     const token = generateToken(user)
-    return res.status(200).json({ token })
+    return res.status(200).json({
+      user,
+      token,
+    })
   }
   res.status(401).send('Invalid Username or Password')
 })
