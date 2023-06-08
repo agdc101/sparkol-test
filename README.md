@@ -2,6 +2,8 @@
 
 # Setup
 
+Ensure you are running the correct version of Node.js either by running `nvm install` (if you use NVM) or by installing the correct binary from [https://nodejs.org/](https://nodejs.org/) that matches the `.nvmrc` file.
+
 `npm install`
 
 `npm start`
