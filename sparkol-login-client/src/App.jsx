@@ -9,8 +9,9 @@ const App = () => {
   const [jwt, setJwt] = useState('');
   const [name, setName] = useState('');
 
-  const loginHandler = (token) => {
-    setJwt(token);
+  const loginHandler = (token, name) => {
+      setJwt(token);
+      setName(name);
   };
 
   const logoutHandler = () => {

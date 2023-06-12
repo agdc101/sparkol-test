@@ -5,6 +5,7 @@ import axios from 'axios';
 const LoginForm = ({ onLogin }) => {
   const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleUserLogin = async (e) => {
     e.preventDefault();
@@ -13,18 +14,20 @@ const LoginForm = ({ onLogin }) => {
         username : userName,
         password : password,
       });
-      onLogin(response.data.token);
+      onLogin(response.data.token, response.data.user.name);
+
     } catch (error) {
-      console.error('login failed:', error);
+      setError('Login failed');
     }
   };
 
   return (
-    <div class="mt-4 form-wrapper container">
+    <div className="mt-4 form-wrapper container">
     <h3>Login</h3>
       <form onSubmit={handleUserLogin}>
+        {error && <p className="text-danger mb-2">{error}</p>}
         <input
-          class="form-control"
+          className="form-control"
           type="text"
           placeholder="username"
           value={userName}
@@ -33,13 +36,13 @@ const LoginForm = ({ onLogin }) => {
         />
         <input
           type="password"
-          class="form-control mt-2"
+          className="form-control mt-2"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button class="mt-3 btn btn-primary" type="submit">Log In</button>
+        <button className="mt-3 btn btn-primary" type="submit">Log In</button>
       </form>
     </div>
   );
