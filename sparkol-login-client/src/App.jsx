@@ -1,5 +1,6 @@
 // src/App.js
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
 import LoginForm from './components/LoginForm';
 import UserWelcome from './components/UserWelcome';
 import LogoutButton from './components/LogoutButton';

@@ -20,9 +20,11 @@ const LoginForm = ({ onLogin }) => {
   };
 
   return (
-    <div class="form-wrapper">
+    <div class="mt-4 form-wrapper container">
+    <h3>Login</h3>
       <form onSubmit={handleUserLogin}>
         <input
+          class="form-control"
           type="text"
           placeholder="username"
           value={userName}
@@ -31,12 +33,13 @@ const LoginForm = ({ onLogin }) => {
         />
         <input
           type="password"
+          class="form-control mt-2"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Log In</button>
+        <button class="mt-3 btn btn-primary" type="submit">Log In</button>
       </form>
     </div>
   );
