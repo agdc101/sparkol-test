@@ -11,15 +11,30 @@ const LoginForm = ({ onLogin }) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3333/login', {
-        username : userName,
+        username: userName,
         password : password,
       });
-      onLogin(response.data.token, response.data.user.name);
 
+      const token = response.data.token;
+      const name = response.data.user.name;
+
+      const verifyToken= await fetch('http://localhost:3333/verifyToken', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (verifyToken.ok) {
+        onLogin(token, name);
+      } else {
+        setError('Login authentication failed');
+      }
     } catch (error) {
-      setError('Login failed');
+      setError('Login failed - invalid username or password');
     }
   };
+
 
   return (
     <div className="mt-4 form-wrapper container">
