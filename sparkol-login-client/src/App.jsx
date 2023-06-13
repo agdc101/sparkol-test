@@ -1,6 +1,7 @@
 // src/App.js
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import { AppProvider } from './context/LogoutContext';
 import LoginForm from './components/LoginForm';
 import UserWelcome from './components/UserWelcome';
 import LogoutButton from './components/LogoutButton';
@@ -19,7 +20,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <AppProvider>
       {jwt ? (
         <>
           <UserWelcome user={name} />
@@ -28,7 +29,7 @@ const App = () => {
       ) : (
         <LoginForm onLogin={loginHandler} />
       )}
-    </div>
+    </AppProvider>
   );
 };
 

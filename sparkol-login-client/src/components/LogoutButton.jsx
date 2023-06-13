@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../context/LogoutContext';
 
 const UserLogoutButton = ({ onLogout }) => {
+  const { handleLogoutMessage } = useContext(AppContext);
+
   const handleUserLogout = () => {
     onLogout();
+    handleLogoutMessage();
   };
 
   return (

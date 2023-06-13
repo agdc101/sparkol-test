@@ -1,14 +1,17 @@
 // src/components/LoginForm.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AppContext } from '../context/LogoutContext';
 import axios from 'axios';
 
 const LoginForm = ({ onLogin }) => {
   const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { logoutMessage, resetLogoutMessage } = useContext(AppContext);
 
   const handleUserLogin = async (e) => {
     e.preventDefault();
+    resetLogoutMessage();
     try {
       const response = await axios.post('http://localhost:3333/login', {
         username: userName,
@@ -19,7 +22,6 @@ const LoginForm = ({ onLogin }) => {
       const name = response.data.user.name;
 
       const verifyToken= await fetch('http://localhost:3333/verifyToken', {
-        method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -27,6 +29,7 @@ const LoginForm = ({ onLogin }) => {
 
       if (verifyToken.ok) {
         onLogin(token, name);
+        resetLogoutSuccess();
       } else {
         setError('Login authentication failed');
       }
@@ -35,9 +38,9 @@ const LoginForm = ({ onLogin }) => {
     }
   };
 
-
   return (
     <div className="mt-4 form-wrapper container">
+    {logoutMessage && <p className="text-success mb-2">{logoutMessage}</p>}
     <h3>Login</h3>
       <form onSubmit={handleUserLogin}>
         {error && <p className="text-danger mb-2">{error}</p>}
